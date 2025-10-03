@@ -546,10 +546,10 @@
     color: hsl(var(--primary-foreground)) !important;
   }
 
-  /* Navigation link underline effect */
+  /* Enhanced Navigation Styles */
   .nav-link {
     position: relative;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .nav-link::after {
@@ -581,6 +581,295 @@
 
   .dark .nav-link:hover {
     color: hsl(var(--primary)) !important;
+  }
+
+  /* Enhanced Header Animations */
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  .animate-slide-down {
+    animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .animate-fade-in-scale {
+    animation: fadeInScale 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Glass morphism for header */
+  .header-glass {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .dark .header-glass {
+    background: rgba(0, 0, 0, 0.8);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Enhanced button hover effects */
+  .btn-gradient-hover {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-gradient-hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+  }
+
+  .btn-gradient-hover:hover::before {
+    left: 100%;
+  }
+
+  /* Mobile menu enhanced animations */
+  .mobile-menu-item {
+    animation: slideInLeft 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  .mobile-menu-item:nth-child(1) { animation-delay: 0.1s; }
+  .mobile-menu-item:nth-child(2) { animation-delay: 0.15s; }
+  .mobile-menu-item:nth-child(3) { animation-delay: 0.2s; }
+  .mobile-menu-item:nth-child(4) { animation-delay: 0.25s; }
+
+  @keyframes slideInLeft {
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* Logo glow effect */
+  .logo-glow {
+    filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.3));
+    transition: filter 0.3s ease;
+  }
+
+  .logo-glow:hover {
+    filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.5));
+  }
+
+  .dark .logo-glow:hover {
+    filter: drop-shadow(0 0 20px rgba(96, 165, 250, 0.5));
+  }
+
+  /* 2025 Modern Logo Design */
+  .logo-house {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6); /* indigo-500 to violet-500 - modern purple gradient */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 4px rgba(99, 102, 241, 0.2);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .logo-house:hover {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed); /* deeper purple on hover */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .logo-market {
+    background: linear-gradient(135deg, #06b6d4, #0891b2, #0e7490); /* cyan gradient - modern tech feel */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 4px rgba(6, 182, 212, 0.2);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .logo-market:hover {
+    background: linear-gradient(135deg, #0891b2, #0e7490, #155e75); /* deeper cyan on hover */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Dark mode - Enhanced for 2025 */
+  .dark .logo-house {
+    background: linear-gradient(135deg, #818cf8, #a78bfa, #c084fc); /* lighter purple for dark mode */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 4px rgba(129, 140, 248, 0.3);
+  }
+
+  .dark .logo-house:hover {
+    background: linear-gradient(135deg, #a78bfa, #c084fc, #d8b4fe); /* even lighter on hover */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .dark .logo-market {
+    background: linear-gradient(135deg, #22d3ee, #06b6d4, #0891b2); /* bright cyan for dark mode */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 4px rgba(34, 211, 238, 0.3);
+  }
+
+  .dark .logo-market:hover {
+    background: linear-gradient(135deg, #67e8f9, #22d3ee, #06b6d4); /* brighter cyan on hover */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Gradient text animation */
+  .gradient-text {
+    background: linear-gradient(-45deg, #3b82f6, #8b5cf6, #ec4899, #f59e0b);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientShift 3s ease infinite;
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* 2025 Modern Glow Effects */
+  .logo-enhanced-glow {
+    filter: drop-shadow(0 0 6px rgba(99, 102, 241, 0.2)) drop-shadow(0 0 8px rgba(6, 182, 212, 0.15));
+    transition: filter 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .logo-enhanced-glow:hover {
+    filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.35)) drop-shadow(0 0 12px rgba(6, 182, 212, 0.25)) drop-shadow(0 0 16px rgba(139, 92, 246, 0.1));
+    transform: scale(1.02);
+  }
+
+  .dark .logo-enhanced-glow {
+    filter: drop-shadow(0 0 8px rgba(129, 140, 248, 0.25)) drop-shadow(0 0 10px rgba(34, 211, 238, 0.2));
+  }
+
+  .dark .logo-enhanced-glow:hover {
+    filter: drop-shadow(0 0 12px rgba(129, 140, 248, 0.4)) drop-shadow(0 0 14px rgba(34, 211, 238, 0.3)) drop-shadow(0 0 18px rgba(192, 132, 252, 0.15));
+    transform: scale(1.02);
+  }
+
+  /* 2025 Futuristic Animation */
+  @keyframes futuristicPulse {
+    0%, 100% {
+      filter: drop-shadow(0 0 6px rgba(99, 102, 241, 0.2)) drop-shadow(0 0 8px rgba(6, 182, 212, 0.15));
+    }
+    50% {
+      filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.3)) drop-shadow(0 0 10px rgba(6, 182, 212, 0.2));
+    }
+  }
+
+  .logo-enhanced-glow {
+    animation: futuristicPulse 3s ease-in-out infinite;
+  }
+
+  .logo-enhanced-glow:hover {
+    animation: none; /* Stop pulse on hover to show hover effect */
+  }
+
+  /* Enhanced mobile menu backdrop */
+  .mobile-menu-backdrop {
+    background: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4px);
+  }
+
+  .dark .mobile-menu-backdrop {
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  /* 2025 Modern Logo Enhancements */
+  .logo-2025-modern {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .logo-2025-modern::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transform: rotate(45deg);
+    transition: all 0.6s ease;
+    opacity: 0;
+  }
+
+  .logo-2025-modern:hover::before {
+    animation: shimmerSweep 0.8s ease-out;
+  }
+
+  @keyframes shimmerSweep {
+    0% {
+      transform: translateX(-100%) translateY(-100%) rotate(45deg);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(100%) translateY(100%) rotate(45deg);
+      opacity: 0;
+    }
+  }
+
+  /* Holographic effect for 2025 */
+  .logo-holographic {
+    background: linear-gradient(45deg, #6366f1, #8b5cf6, #06b6d4, #10b981, #f59e0b, #ef4444);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: holographicShift 4s ease-in-out infinite;
+  }
+
+  @keyframes holographicShift {
+    0%, 100% { background-position: 0% 50%; }
+    25% { background-position: 100% 50%; }
+    50% { background-position: 100% 100%; }
+    75% { background-position: 0% 100%; }
   }
 
   /* Action buttons for admin tables */

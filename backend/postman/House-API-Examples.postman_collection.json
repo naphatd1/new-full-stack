@@ -1,0 +1,381 @@
+{
+  "info": {
+    "_postman_id": "house-api-collection",
+    "name": "House API Examples",
+    "description": "API collection for House Management system with image upload",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Houses",
+      "item": [
+        {
+          "name": "Create House",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.success && response.data.id) {",
+                  "        pm.environment.set('house_id', response.data.id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"บ้านเดี่ยว 2 ชั้น ย่านสุขุมวิท\",\n  \"description\": \"บ้านสวยพร้อมอยู่ ใกล้ BTS อโศก เดินทางสะดวก มีสวนหน้าบ้าน จอดรถได้ 2 คัน\",\n  \"price\": 15000000,\n  \"address\": \"123/45 ซอยสุขุมวิท 21 แขวงคลองเตยเหนือ\",\n  \"city\": \"วัฒนา\",\n  \"province\": \"กรุงเทพมหานคร\",\n  \"postalCode\": \"10110\",\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"area\": 150.5,\n  \"landArea\": 200,\n  \"houseType\": \"DETACHED_HOUSE\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/houses",
+              "host": ["{{base_url}}"],
+              "path": ["api", "houses"]
+            }
+          }
+        },
+        {
+          "name": "Get All Houses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/houses",
+              "host": ["{{base_url}}"],
+              "path": ["api", "houses"]
+            }
+          }
+        },
+        {
+          "name": "Get Houses with Filters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/houses?city=วัฒนา&minPrice=10000000&maxPrice=20000000&houseType=DETACHED_HOUSE&status=AVAILABLE",
+              "host": ["{{base_url}}"],
+              "path": ["api", "houses"],
+              "query": [
+                {
+                  "key": "city",
+                  "value": "วัฒนา"
+                },
+                {
+                  "key": "minPrice",
+                  "value": "10000000"
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "20000000"
+                },
+                {
+                  "key": "houseType",
+                  "value": "DETACHED_HOUSE"
+                },
+                {
+                  "key": "status",
+                  "value": "AVAILABLE"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get My Houses",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/houses/my",
+              "host": ["{{base_url}}"],
+              "path": ["api", "houses", "my"]
+            }
+          }
+        },
+        {
+          "name": "Get House by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/houses/{{house_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "houses", "{{house_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Update House",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"บ้านเดี่ยว 2 ชั้น ย่านสุขุมวิท (ปรับปรุงใหม่)\",\n  \"price\": 16000000,\n  \"description\": \"บ้านสวยพร้อมอยู่ ใกล้ BTS อโศก เดินทางสะดวก มีสวนหน้าบ้าน จอดรถได้ 2 คัน ปรับปรุงใหม่ทั้งหลัง\",\n  \"status\": \"AVAILABLE\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/houses/{{house_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "houses", "{{house_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete House",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/houses/{{house_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "houses", "{{house_id}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "House Images",
+      "item": [
+        {
+          "name": "Upload House Images",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.success && response.data.uploadedImages.length > 0) {",
+                  "        pm.environment.set('image_id', response.data.uploadedImages[0].id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "images",
+                  "type": "file",
+                  "src": [],
+                  "description": "เลือกไฟล์รูปภาพ (สูงสุด 30 ไฟล์)"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/houses/{{house_id}}/images",
+              "host": ["{{base_url}}"],
+              "path": ["api", "houses", "{{house_id}}", "images"]
+            }
+          }
+        },
+        {
+          "name": "Get House Images",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/houses/{{house_id}}/images",
+              "host": ["{{base_url}}"],
+              "path": ["api", "houses", "{{house_id}}", "images"]
+            }
+          }
+        },
+        {
+          "name": "Set Main Image",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/houses/{{house_id}}/images/{{image_id}}/main",
+              "host": ["{{base_url}}"],
+              "path": ["api", "houses", "{{house_id}}", "images", "{{image_id}}", "main"]
+            }
+          }
+        },
+        {
+          "name": "Reorder Images",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"imageOrders\": [\n    { \"id\": \"image_id_1\", \"order\": 0 },\n    { \"id\": \"image_id_2\", \"order\": 1 },\n    { \"id\": \"image_id_3\", \"order\": 2 }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/houses/{{house_id}}/images/reorder",
+              "host": ["{{base_url}}"],
+              "path": ["api", "houses", "{{house_id}}", "images", "reorder"]
+            }
+          }
+        },
+        {
+          "name": "Delete House Image",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/houses/{{house_id}}/images/{{image_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "houses", "{{house_id}}", "images", "{{image_id}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Authentication (Required)",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.success && response.data.token) {",
+                  "        pm.environment.set('auth_token', response.data.token);",
+                  "        pm.environment.set('user_id', response.data.user.id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"Password123!@#\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Register",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.success && response.data.token) {",
+                  "        pm.environment.set('auth_token', response.data.token);",
+                  "        pm.environment.set('user_id', response.data.user.id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"username\": \"johndoe\",\n  \"password\": \"Password123!@#\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "register"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:4000/v1",
+      "type": "string"
+    }
+  ]
+}

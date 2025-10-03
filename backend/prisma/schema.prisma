@@ -1,0 +1,203 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  username  String   @unique
+  password  String
+  firstName String?
+  lastName  String?
+  avatar    String?
+  role      Role     @default(USER)
+  isActive  Boolean  @default(true)
+  isVerified Boolean @default(false)
+  
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  sessions  Session[]
+  profile   Profile?
+  houses    House[]
+  
+  @@map("users")
+}
+
+model Profile {
+  id          String    @id @default(cuid())
+  userId      String    @unique
+  bio         String?
+  phone       String?
+  dateOfBirth DateTime?
+  address     String?
+  city        String?
+  country     String?
+  
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("profiles")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       String
+  token        String   @unique
+  expiresAt    DateTime
+  userAgent    String?
+  ipAddress    String?
+  lastActivity DateTime @default(now()) // เพิ่ม field สำหรับ track activity
+  
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("sessions")
+}
+
+model House {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  price       Decimal
+  address     String
+  city        String
+  province    String
+  postalCode  String?
+  bedrooms    Int
+  bathrooms   Int
+  area        Decimal  // ตารางเมตร
+  landArea    Decimal? // ขนาดที่ดิน
+  parkingSpaces Int    @default(0) // จำนวนที่จอดรถ
+  houseType   HouseType
+  status      HouseStatus @default(AVAILABLE)
+  badges      String[]    @default([]) // จุดเด่นและสิ่งอำนวยความสะดวก
+  viewCount   Int         @default(0) // จำนวนการเข้าชม
+  
+  // Owner information
+  ownerId     String
+  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  images      HouseImage[]
+  
+  @@map("houses")
+}
+
+model HouseImage {
+  id          String   @id @default(cuid())
+  houseId     String
+  filename    String
+  originalName String
+  path        String   // path ใน folder
+  url         String?  // URL สำหรับเข้าถึงรูป
+  size        Int      // ขนาดไฟล์ (bytes)
+  mimetype    String
+  width       Int?
+  height      Int?
+  isMain      Boolean  @default(false) // รูปหลัก
+  order       Int      @default(0)     // ลำดับการแสดง
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  house       House    @relation(fields: [houseId], references: [id], onDelete: Cascade)
+  
+  @@map("house_images")
+}
+
+enum Role {
+  USER
+  ADMIN
+  MODERATOR
+}
+
+enum HouseType {
+  DETACHED_HOUSE    // บ้านเดี่ยว
+  TOWNHOUSE         // ทาวน์เฮาส์
+  CONDO             // คอนโด
+  APARTMENT         // อพาร์ทเมนท์
+  COMMERCIAL        // อาคารพาณิชย์
+  LAND              // ที่ดิน
+}
+
+enum HouseStatus {
+  AVAILABLE         // พร้อมขาย
+  PENDING           // รอการตัดสินใจ
+  SOLD              // ขายแล้ว
+  INACTIVE          // ไม่ใช้งาน
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String
+  status    MessageStatus @default(UNREAD)
+  
+  // Admin response
+  adminResponse String?
+  respondedBy   String?
+  respondedAt   DateTime?
+  
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("contact_messages")
+}
+
+enum MessageStatus {
+  UNREAD            // ยังไม่ได้อ่าน
+  READ              // อ่านแล้ว
+  REPLIED           // ตอบกลับแล้ว
+  ARCHIVED          // เก็บถาวร
+}
+
+model SystemSettings {
+  id                        String   @id @default(cuid())
+  siteName                  String   @default("HouseMarket")
+  siteDescription           String   @default("แพลตฟอร์มซื้อขายอสังหาริมทรัพย์ออนไลน์")
+  allowRegistration         Boolean  @default(true)
+  requireEmailVerification  Boolean  @default(true)
+  enableNotifications       Boolean  @default(true)
+  maintenanceMode           Boolean  @default(false)
+  maxFileSize               Int      @default(10) // MB
+  allowedFileTypes          String   @default("jpg,jpeg,png,pdf")
+  commissionRate            Decimal  @default(3.0) // %
+  currency                  String   @default("THB")
+  timezone                  String   @default("Asia/Bangkok")
+  language                  String   @default("th")
+  
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("system_settings")
+}
